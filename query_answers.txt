@@ -1,0 +1,85 @@
+1.
+
+In [41]: Album.objects.filter(artist=51)
+Out[41]: <QuerySet [<Album: Album object (32)>, <Album: Album object (181)>, <Album: Album object (182)>]>
+
+In [42]: list = Album.objects.filter(artist=51)
+
+In [43]: list
+Out[43]: <QuerySet [<Album: Album object (32)>, <Album: Album object (181)>, <Album: Album object (182)>]>
+
+In [44]: for album in list:
+    ...:     print(album.title)
+    ...:
+Greatest Hits II
+Greatest Hits I
+News Of The World
+
+2.
+
+item = MediaType.objects.filter(name='Protected MPEG-4 video file')
+In[51]:item[0].pk                                                                                                                          Out[51]: 3
+
+In [56]: Track.objects.filter(media_type=3).count()
+Out[56]: 214
+
+3.
+In [58]: var = Genre.objects.filter(name='Hip Hop/Rap')
+
+In [59]: var
+Out[59]: <QuerySet [<Genre: Genre object (17)>]>
+
+4.
+In [63]: var[0].pk
+Out[63]: 17 <-- PK of Genre Hip Hop/Rap
+
+In [64]: Track.objects.filter(genre=17).count()
+Out[64]: 35
+
+5.
+list = Track.objects.all()[0:3497]
+In [78]: total = 0
+    ...: for object in list:
+    ...:   total += object.milliseconds
+    ...: print(total)
+    ...:
+    ...:
+1377638426
+
+6.
+In [79]: var2 = MediaType.objects.filter(name='MPEG audio file')[0].pk
+
+In [80]: var2
+Out[80]: 1
+list2 = Track.objects.filter(media_type=var2) 
+In [92]: list2.order_by('unit_price')[0].unit_price
+Out[92]: Decimal('0.99')
+
+or
+
+In [95]: list2.aggregate(Max('unit_price'))
+Out[95]: {'unit_price__max': Decimal('0.99')}
+
+7.
+In [96]: list2.order_by('unit_price')[0].name
+Out[96]: 'Put The Finger On You'
+
+8.
+In [102]: Artist.objects.order_by('created_at')[0].name
+Out[102]: 'Les Arts Florissants & William Christie'
+
+In [103]: Artist.objects.order_by('created_at')[1].name
+Out[103]: 'Baby Consuelo'
+
+9.
+In [114]: song = Track.objects.filter(genre=15).order_by('-unit_price')
+
+In [115]: song
+Out[115]: <QuerySet [<Track: Track object (3319)>, <Track: Track object (3320)>, <Track: Track object (3321)>, <Track: Track object (3322)>, <Track: Track object (3323)>, <Track: Track object (3324)>, <Track: Track object (3325)>, <Track: Track object (3327)>, <Track: Track object (3328)>, <Track: Track object (3329)>, <Track: Track object (3330)>, <Track: Track object (3331)>, <Track: Track object (3333)>, <Track: Track object (3334)>, <Track: Track object (3335)>, <Track: Track object (3352)>, <Track: Track object (3358)>, <Track: Track object (1456)>, <Track: Track object (1463)>, <Track: Track object (1455)>, '...(remaining elements truncated)...']>
+
+In [116]: song[0].name
+Out[116]: 'Instinto Colectivo'
+
+10.
+In [118]: Track.objects.filter(genre=15).filter(media_type=1).count()
+Out[118]: 28
